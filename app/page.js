@@ -1,9 +1,10 @@
 'use client'
 
 import { useState } from 'react';
-import Layout from '../components/Layout';
+import Layout from '../../components/Layout';
 import SearchBar from '../components/SearchBar';
 import BookGrid from '../components/BookGrid';
+import Link from 'next/link';
 
 const books = [
   {
@@ -27,6 +28,38 @@ const books = [
   }
 ];
 
+const categories = [
+  {
+    name: "Fiction",
+    books: [
+      { id: 1, title: "Pride and Prejudice" },
+      { id: 2, title: "1984" },
+      { id: 3, title: "To Kill a Mockingbird" },
+    ]
+  },
+  {
+    name: "Non-fiction",
+    books: [
+      { id: 4, title: "A Brief History of Time" },
+      { id: 5, title: "The Diary of a Young Girl" },
+    ]
+  },
+  {
+    name: "Historical",
+    books: [
+      { id: 6, title: "War and Peace" },
+      { id: 7, title: "All Quiet on the Western Front" },
+    ]
+  },
+  {
+    name: "Romance",
+    books: [
+      { id: 8, title: "Jane Eyre" },
+      { id: 9, title: "Wuthering Heights" },
+    ]
+  }
+];
+
 export default function Home() {
   const [filteredBooks, setFilteredBooks] = useState(books);
 
@@ -43,6 +76,28 @@ export default function Home() {
       <h1 className="text-4xl font-serif font-bold text-center mb-8">Classics Condensed</h1>
       <SearchBar onSearch={handleSearch} />
       <BookGrid books={filteredBooks} />
+    </Layout>
+  );
+}
+
+export function CategoriesPage() {
+  return (
+    <Layout>
+      <h1>Categories</h1>
+      {categories.map(category => (
+        <div key={category.name}>
+          <h2>{category.name}</h2>
+          <ul>
+            {category.books.map(book => (
+              <li key={book.id}>
+                <Link href={`/book/${book.id}`}>
+                  <a>{book.title}</a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </Layout>
   );
 }
